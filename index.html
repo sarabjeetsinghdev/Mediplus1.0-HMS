@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediplus 1.0 - Hospital Management System</title>
+    <meta name="description" content="Mediplus 1.0 is a comprehensive hospital management system designed to streamline patient care, billing, and reporting processes.">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 d-md-block bg-light sidebar">
+                <div class="text-center">
+                    <h4 class="sidebar-heading">Mediplus 1.0</h4>
+                    <ul class="nav d-md-flex flex-md-column justify-content-center list-unstyled">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#dashboard" onclick="showSection('dashboard')">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#patients" onclick="showSection('patients')">Patients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#personnel" onclick="showSection('personnel')">Personnel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#billing" onclick="showSection('billing')">Billing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#reports" onclick="showSection('reports')">Reports</a>
+                        </li>
+            </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto px-4">
+                <div id="dashboard" class="section">
+                    <div class="dashboard-content text-center">
+                        <h1 class="dashboard-title">Sarabjeet Singh</h1>
+                        <p class="dashboard-description">
+                            "Sarabjeet Singh is a visionary leader in the healthcare industry, dedicated to improving
+                            patient care and advancing medical technology. With a passion for innovation and a
+                            commitment to excellence, he strives to create a healthcare system that is accessible,
+                            efficient, and compassionate. His work inspires others to push the boundaries of what is
+                            possible in medicine, making a lasting impact on the lives of countless individuals."
+                        </p>
+                    </div>
+                </div>
+
+                <div id="patients" class="section" style="display: none;">
+                    <h2>Patients</h2>
+
+                    <!-- Button to Open Modal -->
+                    <button type="button" class="btn btn-custom mb-4" data-toggle="modal"
+                        data-target="#addPatientModal">
+                        Add New Patient
+                    </button>
+
+                    <!-- Search Patient -->
+                    <div class="form-group">
+                        <input type="text" id="searchPatient" class="form-control" placeholder="Search by Name or ID"
+                            oninput="searchPatients()">
+                </div>
+
+                    <!-- Patient Table -->
+                    <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                                <th>Blood Group</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                        <tbody id="patientTableBody">
+                        <!-- Patient records will be populated here -->
+                    </tbody>
+                </table>
+                </div>
+
+                <!-- Modal for Adding/Editing Patient -->
+                <div class="modal fade" id="addPatientModal" tabindex="-1" role="dialog"
+                    aria-labelledby="addPatientModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addPatientModalLabel">Add/Edit Patient</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addPatientForm">
+                                    <div class="form-group">
+                                        <input type="text" id="patientName" class="form-control" placeholder="Name"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="patientAge" class="form-control" placeholder="Age"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="patientContact" class="form-control"
+                                            placeholder="Contact" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="patientAddress" class="form-control"
+                                            placeholder="Address" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="patientBloodGroup" class="form-control"
+                                            placeholder="Blood Group" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom">Save Patient</button>
+                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="patientDetails" class="section" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>Patient Details</h2>
+                        <button id="backToPatientsButton" class="btn btn-custom mb-4 float-right">Back to
+                            Patients</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title" id="patientNameDetail"></h5>
+                                    <p class="card-text" id="patientAgeDetail"></p>
+                                    <p class="card-text" id="patientContactDetail"></p>
+                                    <p class="card-text" id="patientAddressDetail"></p>
+                                    <p class="card-text" id="patientBloodGroupDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Medical History</h4>
+                                    <p id="medicalHistoryDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Medical Records</h4>
+                                    <p id="medicalRecordsDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Chances of Survival</h4>
+                                    <canvas id="survivalChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Medications Given</h4>
+                                    <p id="medicationsDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="personnel" class="section" style="display: none;">
+                    <h2>Personnel</h2>
+
+                    <!-- Button to Open Modal -->
+                    <button type="button" class="btn btn-custom mb-4" data-toggle="modal"
+                        data-target="#addPersonnelModal">
+                        Add New Personnel
+                    </button>
+
+                    <!-- Search Personnel -->
+                    <div class="form-group">
+                        <input type="text" id="searchPersonnel" class="form-control" placeholder="Search by Name or ID"
+                            oninput="searchPersonnel()">
+                    </div>
+
+                    <!-- Personnel Table -->
+                    <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                                <th>Position</th>
+                            <th>Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                        <tbody id="personnelTableBody">
+                            <!-- Personnel records will be populated here -->
+                    </tbody>
+                </table>
+                </div>
+
+                <!-- Modal for Adding/Editing Personnel -->
+                <div class="modal fade" id="addPersonnelModal" tabindex="-1" role="dialog"
+                    aria-labelledby="addPersonnelModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addPersonnelModalLabel">Add/Edit Personnel</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addPersonnelForm">
+                                    <div class="form-group">
+                                        <input type="text" id="personnelName" class="form-control" placeholder="Name"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="personnelPosition" class="form-control"
+                                            placeholder="Position" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="personnelContact" class="form-control"
+                                            placeholder="Contact" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom">Save Personnel</button>
+                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="personnelDetails" class="section" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>Personnel Details</h2>
+                        <button id="backToPersonnelButton" class="btn btn-custom mb-4 float-right">Back to
+                            Personnel</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title" id="personnelNameDetail"></h5>
+                                    <p class="card-text" id="personnelPositionDetail"></p>
+                                    <p class="card-text" id="personnelContactDetail"></p>
+                                    <p class="card-text" id="personnelAddressDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Medical History</h4>
+                                    <p id="personnelMedicalHistoryDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Medical Records</h4>
+                                    <p id="personnelMedicalRecordsDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                    <!-- Education Card -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Education</h4>
+                                    <p id="personnelEducationDetail">Bachelor of Medicine, XYZ University</p>
+                                    <!-- Example content -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience Card -->
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Experience</h4>
+                                    <p id="personnelExperienceDetail">5 years as a General Practitioner</p>
+                                    <!-- Example content -->
+                                </div>
+                            </div>
+                </div>
+            
+                        <!-- Achievements Card -->
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">Achievements</h4>
+                                    <p id="personnelAchievementsDetail">Awarded Best Doctor of the Year 2022</p>
+                                    <!-- Example content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div id="billing" class="section" style="display: none;">
+                    <h2>Billing</h2>
+
+                    <!-- Button to Open Modal -->
+                    <button type="button" class="btn btn-custom mb-4" data-toggle="modal"
+                        data-target="#addBillingModal">
+                        Add New Billing Record
+                    </button>
+
+                    <!-- Search Billing -->
+                    <div class="form-group">
+                        <input type="text" id="searchBilling" class="form-control"
+                            placeholder="Search by Patient ID or Amount" oninput="searchBilling()">
+                </div>
+            
+                    <!-- Billing Table -->
+                    <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                        <tbody id="billingTableBody">
+                        <!-- Billing records will be populated here -->
+                    </tbody>
+                </table>
+                </div>
+            
+                <!-- Modal for Adding/Editing Billing -->
+                <div class="modal fade" id="addBillingModal" tabindex="-1" role="dialog"
+                    aria-labelledby="addBillingModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addBillingModalLabel">Add/Edit Billing Record</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addBillingForm">
+                                    <div class="form-group">
+                                        <input type="number" id="billingAmount" class="form-control"
+                                            placeholder="Amount" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="date" id="billingDate" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="billingDescription" class="form-control"
+                                            placeholder="Description" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom">Save Billing</button>
+                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div id="billingDetails" class="section" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>Billing Details</h2>
+                        <button id="backToBillingButton" class="btn btn-custom mb-4 float-right">Back to
+                            Billing</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Billing ID</h5>
+                                    <p class="card-text" id="billingIdDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Patient ID</h5>
+                                    <p class="card-text" id="billingPatientIdDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Amount</h5>
+                                    <p class="card-text" id="billingAmountDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Date</h5>
+                                    <p class="card-text" id="billingDateDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Description</h5>
+                                    <p class="card-text" id="billingDescriptionDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bill Summary Breakdown in a Single Card -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Bill Summary Breakdown</h5>
+                                    <p class="card-text"><strong>Subtotal:</strong> <span
+                                            id="billingSubtotalDetail"></span></p>
+                                    <p class="card-text"><strong>Tax (10%):</strong> <span id="billingTaxDetail"></span>
+                                    </p>
+                                    <p class="card-text"><strong>Total Amount:</strong> <span
+                                            id="billingTotalDetail"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div id="reports" class="section" style="display: none;">
+                    <h2>Reports</h2>
+
+                    <!-- Button to Open Modal -->
+                    <button type="button" class="btn btn-custom mb-4" data-toggle="modal" data-target="#addReportModal">
+                        Add New Report
+                    </button>
+
+                    <!-- Search Reports -->
+                    <div class="form-group">
+                        <input type="text" id="searchReports" class="form-control"
+                            placeholder="Search by Report ID or Description" oninput="searchReports()">
+                    </div>
+
+                    <!-- Reports Table -->
+                    <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                                <th>Patient ID</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                        <tbody id="reportsTableBody">
+                            <!-- Report records will be populated here -->
+                    </tbody>
+                </table>
+                </div>
+
+                <!-- Modal for Adding/Editing Report -->
+                <div class="modal fade" id="addReportModal" tabindex="-1" role="dialog"
+                    aria-labelledby="addReportModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addReportModalLabel">Add/Edit Report</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addReportForm">
+                                    <div class="form-group">
+                                        <input type="text" id="reportDescription" class="form-control"
+                                            placeholder="Description" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="date" id="reportDate" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom">Save Report</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reportDetails" class="section" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>Report Details</h2>
+                        <button id="backToReportsButton" class="btn btn-custom mb-4 float-right">Back to
+                            Reports</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Report ID</h5>
+                                    <p class="card-text" id="reportIdDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Patient ID</h5>
+                                    <p class="card-text" id="reportPatientIdDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Date</h5>
+                                    <p class="card-text" id="reportDateDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Description</h5>
+                                    <p class="card-text" id="reportDescriptionDetail"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="container-fluid text-center">
+            <p class="mb-0">© 2025 Mediplus. All rights reserved.</p>
+            <p>Developed by Sarabjeet Singh | Hospital Management System</p>
+            <p>For inquiries, contact: <a href="mailto:sarabjeet@example.com" style="color: #ffffff;">Sarabjeetdevworks@gmail.com</a></p>
+        </div>
+        <div class="social-icons text-center"></div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html> 

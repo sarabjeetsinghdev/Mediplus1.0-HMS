@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+* {
+    user-select: none;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4ff;
+}
+
+.sidebar {
+    width: 250px;
+    /* Set a fixed width for the sidebar */
+    padding: 48px 0 48px 0;
+    /* Padding for the top */
+    background: linear-gradient(180deg, #3f51b5, #1a237e);
+    /* Indigo gradient */
+    color: #ffffff;
+    /* White text */
+    transition: width 0.3s;
+    /* Smooth transition for width */
+}
+
+.sidebar-heading {
+    color: #ffffff;
+    /* White heading */
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    /* Larger font size for heading */
+    font-family: "Libre Baskerville", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.nav-link {
+    margin: 0 20px 0 10px;
+    color: #ffffff;
+    /* White link color */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Smooth transition for background and transform */
+    padding: 10px 15px;
+    /* Add padding for better click area */
+    border-radius: 5px;
+    /* Rounded corners for links */
+}
+
+.nav-link:hover {
+    color: #ffffff;
+    /* White text on hover */
+    font-weight: bold;
+    background-color: #303f9f;
+    /* Darker indigo background on hover */
+    transform: scale(1.05);
+    /* Slightly enlarge the link on hover */
+}
+
+.nav-link.active {
+    background-color: #1a237e;
+    /* Darker indigo for active link */
+}
+
+.section {
+    padding: 20px;
+}
+
+h2 {
+    color: #3f51b5;
+    /* Indigo color for headings */
+    font-weight: bold;
+    /* Bold headings */
+}
+
+footer {
+    background-color: #3f51b5;
+    /* Indigo footer */
+    color: #ffffff;
+    /* White text */
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.table {
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    /* Rounded corners */
+    overflow: hidden;
+    /* Prevent overflow */
+}
+
+.table thead th {
+    background-color: #3f51b5;
+    /* Indigo header */
+    color: #ffffff;
+    /* White text */
+}
+
+.table tbody tr {
+    cursor: pointer;
+    /* Change cursor to pointer on table rows */
+}
+
+.table tbody tr td button {
+    border-radius: 10px;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+    /* Optional: Change background color on hover for better visibility */
+}
+
+.table tbody tr:hover {
+    background-color: #e8eaf6;
+    /* Light indigo on hover */
+}
+
+.table td {
+    vertical-align: middle;
+    /* Center align content */
+}
+
+.btn-custom {
+    background-color: #3f51b5;
+    /* Indigo button color */
+    color: #ffffff;
+    /* White text */
+    border: none;
+    /* Remove border */
+    border-radius: 5px;
+    /* Rounded corners */
+    padding: 10px 15px;
+    /* Padding */
+    transition: background-color 0.3s;
+    /* Smooth transition */
+}
+
+.btn-custom:hover {
+    background-color: #303f9f;
+    /* Darker indigo on hover */
+    color: #ffffff;
+    /* White text on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 764px) {
+
+    .sidebar {
+        position: relative;
+        /* Change sidebar position on small screens */
+        height: auto;
+        /* Allow height to adjust */
+        padding: 15px;
+        /* Adjust padding */
+        margin-left: 0;
+        /* Remove margin for small screens */
+        width: 100%;
+        /* Full width for sidebar on mobile */
+    }
+
+    .section {
+        margin-left: 0;
+        /* Remove margin for small screens */
+    }
+
+    .navbar {
+        display: block;
+        /* Show navbar on mobile */
+    }
+}
+
+@media (max-width: 576px) {
+    .nav-link {
+        font-size: 14px;
+        /* Smaller font size for mobile */
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        /* Adjust heading size */
+    }
+}
+
+.card {
+    border-radius: 15px; /* Set border radius for all cards */
+    margin-bottom: 20px; /* Add some space between cards */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    transition: transform 0.3s; /* Smooth transition for hover effect */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Slightly lift the card on hover */
+}
+
+.card-body {
+    padding: 20px; /* Adjust padding for better content spacing */
+}
+
+.card-title {
+    font-size: 1.25rem; /* Increase font size for titles */
+    color: #3f51b5; /* Indigo color for titles */
+}
+
+.card-text {
+    color: #555; /* Darker text color for better readability */
+}
+
+.row {
+    margin-bottom: 0;
+    /* Remove bottom margin from rows to eliminate space */
+}
+
+.custom-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    /* Set a fixed width for buttons */
+    height: 40px;
+    /* Set a fixed height for buttons */
+    border-radius: 50%;
+    /* Make buttons circular */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Smooth transition */
+    border: none;
+    /* Remove border */
+    outline: none;
+    /* Remove outline */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* Add shadow for depth */
+}
+
+.custom-btn:hover {
+    transform: scale(1.1);
+    /* Slightly enlarge the button on hover */
+}
+
+.custom-btn-info {
+    background-color: #17a2b8;
+    /* Info button color */
+}
+
+.custom-btn-warning {
+    background-color: #ffc107;
+    /* Warning button color */
+}
+
+.custom-btn-danger {
+    background-color: #dc3545;
+    /* Danger button color */
+}
+
+.custom-btn-info:hover {
+    background-color: #138496;
+    /* Darker shade on hover */
+}
+
+.custom-btn-warning:hover {
+    background-color: #e0a800;
+    /* Darker shade on hover */
+}
+
+.custom-btn-danger:hover {
+    background-color: #c82333;
+    /* Darker shade on hover */
+}
+
+/* Additional styles for Font Awesome icons */
+.custom-btn i {
+    color: white;
+    /* Set icon color to white */
+    font-size: 16px;
+    /* Set icon size */
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    /* Set a fixed width for icons */
+    height: 40px;
+    /* Set a fixed height for icons */
+    border-radius: 50%;
+    /* Make icons circular */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Smooth transition */
+    cursor: pointer;
+    /* Change cursor to pointer */
+}
+
+.icon:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Light background on hover */
+    transform: scale(1.1);
+    /* Slightly enlarge the icon on hover */
+}
+
+.icon:hover i {
+    color: #3f51b5;
+    /* Change icon color on hover to match the theme color */
+}
+
+.icon i {
+    color: #3f51b5;
+    /* Set icon color to theme color for better visibility */
+    font-size: 16px;
+    /* Set icon size */
+}
+
+.col-md-4 {
+    padding: 2px;
+}
+
+.dashboard-content {
+    margin-top: 50px; /* Add some space above */
+}
+
+.dashboard-title {
+    font-size: 2.5rem; /* Increase font size for the title */
+    font-family: 'Libre Baskerville', serif; /* Use a stylish font */
+    color: #3f51b5; /* Indigo color for the title */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+.dashboard-description {
+    font-size: 0.9rem; /* Set font size for the description */
+    color: #555; /* Darker text color for better readability */
+    max-width: 800px; /* Limit the width of the description */
+    margin: 0 auto; /* Center the description */
+    line-height: 1.6; /* Increase line height for better readability */
+}
+
+.social-icons {
+    background-color: #7274d0;
+}
+
+.social-icon {
+    margin: 0 4px; /* Space between icons */
+    color: #ffffff; /* Indigo color for icons */
+    font-size: 24px; /* Size of the icons */
+    transition: transform 0.3s; /* Smooth transition for hover effect */
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
