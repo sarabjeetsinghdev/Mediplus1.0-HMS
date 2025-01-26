@@ -1,6 +1,6 @@
-# Mediplus 1.0 - Hospital Management System
+# Mediplus 1.0 UI - Hospital Management System
 
-**Mediplus 1.0** is a comprehensive web application designed to streamline the management of hospital operations, including patient care, personnel management, billing, and reporting. Built with **HTML**, **CSS**, **JavaScript**, and **Bootstrap**, this project aims to enhance the efficiency of healthcare services while providing a user-friendly interface for both medical staff and administrators.
+**Mediplus 1.0** is a comprehensive web application frontend designed to streamline the management of hospital operations, including patient care, personnel management, billing, and reporting. Built with **HTML**, **CSS**, **JavaScript**, and **Bootstrap**, this project aims to enhance the efficiency of healthcare services while providing a user-friendly interface for both medical staff and administrators.
 
 ## Features
 
