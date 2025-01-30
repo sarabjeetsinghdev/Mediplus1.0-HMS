@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mediplus 1.0 - Hospital Management System</title>
-    <meta name="description" content="Mediplus 1.0 is a comprehensive hospital management system designed to streamline patient care, billing, and reporting processes.">
+    <meta name="description"
+        content="Mediplus 1.0 is a comprehensive hospital management system designed to streamline patient care, billing, and reporting processes.">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -16,26 +17,39 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-3 d-md-block bg-light sidebar">
+            <nav class="col-md-3 d-md-block sidebar">
                 <div class="text-center">
-                    <h4 class="sidebar-heading">Mediplus 1.0</h4>
+                    <img src="logo.png" alt="Mediplus Logo" class="sidebar-logo" style="width: 100%; height: auto; max-width: 100px;border-radius: 50%;filter: contrast(120%) brightness(120%);">
+                    <h4 class="sidebar-heading" style="display: none;">Mediplus 1.0</h4>
                     <ul class="nav d-md-flex flex-md-column justify-content-center list-unstyled">
                         <li class="nav-item">
-                            <a class="nav-link" href="#dashboard" onclick="showSection('dashboard')">Dashboard</a>
+                            <a class="nav-link" onclick="showSection('dashboard')">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#patients" onclick="showSection('patients')">Patients</a>
+                            <a class="nav-link" onclick="showSection('patients')">Patients</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#personnel" onclick="showSection('personnel')">Personnel</a>
+                            <a class="nav-link" onclick="showSection('doctors')">Doctors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#billing" onclick="showSection('billing')">Billing</a>
+                            <a class="nav-link" onclick="showSection('nurses')">Nurses</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#reports" onclick="showSection('reports')">Reports</a>
+                            <a class="nav-link" onclick="showSection('personnel')">Personnel</a>
                         </li>
-            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="showSection('billing')">Billing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="showSection('reports')">Reports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="showSection('appointments')">Today's Appointments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="showSection('pastAppointments')">Past Appointments</a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
 
@@ -67,25 +81,25 @@
                     <div class="form-group">
                         <input type="text" id="searchPatient" class="form-control" placeholder="Search by Name or ID"
                             oninput="searchPatients()">
-                </div>
+                    </div>
 
                     <!-- Patient Table -->
                     <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Contact</th>
-                            <th>Address</th>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Contact</th>
+                                <th>Address</th>
                                 <th>Blood Group</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                         <tbody id="patientTableBody">
-                        <!-- Patient records will be populated here -->
-                    </tbody>
-                </table>
+                            <!-- Patient records will be populated here -->
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Modal for Adding/Editing Patient -->
@@ -122,7 +136,7 @@
                                             placeholder="Blood Group" required>
                                     </div>
                                     <button type="submit" class="btn btn-custom">Save Patient</button>
-                    </form>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -187,6 +201,167 @@
                     </div>
                 </div>
 
+                <div id="doctors" class="section" style="display: none;">
+                    <h2>Doctors</h2>
+
+                    <!-- Button to Open Modal -->
+                    <button type="button" class="btn btn-custom mb-4" data-toggle="modal" data-target="#addDoctorModal">
+                        Add New Doctor
+                    </button>
+
+                    <!-- Search Doctor -->
+                    <div class="form-group">
+                        <input type="text" id="searchDoctor" class="form-control" placeholder="Search by Name or ID" oninput="searchDoctors()">
+                    </div>
+
+                    <!-- Doctor Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Specialization</th>
+                                <th>Contact</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorTableBody">
+                            <!-- Doctor records will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal for Adding/Editing Doctor -->
+                <div class="modal fade" id="addDoctorModal" tabindex="-1" role="dialog" aria-labelledby="addDoctorModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addDoctorModalLabel">Add/Edit Doctor</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addDoctorForm">
+                                    <div class="form-group">
+                                        <input type="text" id="doctorName" class="form-control" placeholder="Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="doctorSpecialization" class="form-control" placeholder="Specialization" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="doctorContact" class="form-control" placeholder="Contact" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom">Save Doctor</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <div id="doctorDetails" class="section" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>Doctor Details</h2>
+                        <button id="backToDoctorsButton" class="btn btn-custom mb-4 float-right">Back to Doctors</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title" id="doctorNameDetail"></h5>
+                                    <p class="card-text"><strong>Specialization:</strong> <span id="doctorSpecializationDetail"></span></p>
+                                    <p class="card-text"><strong>Contact:</strong> <span id="doctorContactDetail"></span></p>
+                                    <p class="card-text"><strong>Experience:</strong> <span id="doctorExperienceDetail"></span></p>
+                                    <p class="card-text"><strong>Education:</strong> <span id="doctorEducationDetail"></span></p>
+                                    <p class="card-text"><strong>Location:</strong> <span id="doctorLocationDetail"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nurses" class="section" style="display: none;">
+                    <h2>Nurses</h2>
+
+                    <!-- Button to Open Modal -->
+                    <button type="button" class="btn btn-custom mb-4" data-toggle="modal" data-target="#addNurseModal">
+                        Add New Nurse
+                    </button>
+
+                    <!-- Search Nurse -->
+                    <div class="form-group">
+                        <input type="text" id="searchNurse" class="form-control" placeholder="Search by Name or ID" oninput="searchNurses()">
+                    </div>
+
+                    <!-- Nurse Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Contact</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nurseTableBody">
+                            <!-- Nurse records will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal for Adding/Editing Nurse -->
+                <div class="modal fade" id="addNurseModal" tabindex="-1" role="dialog" aria-labelledby="addNurseModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addNurseModalLabel">Add/Edit Nurse</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addNurseForm">
+                                    <div class="form-group">
+                                        <input type="text" id="nurseName" class="form-control" placeholder="Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="nurseDepartment" class="form-control" placeholder="Department" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="nurseContact" class="form-control" placeholder="Contact" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom">Save Nurse</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="nurseDetails" class="section" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>Nurse Details</h2>
+                        <button id="backToNursesButton" class="btn btn-custom mb-4 float-right">Back to Nurses</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title" id="nurseNameDetail"></h5>
+                                    <p class="card-text"><strong>Department:</strong> <span id="nurseDepartmentDetail"></span></p>
+                                    <p class="card-text"><strong>Contact:</strong> <span id="nurseContactDetail"></span></p>
+                                    <p class="card-text"><strong>Experience:</strong> <span id="nurseExperienceDetail"></span></p>
+                                    <p class="card-text"><strong>Education:</strong> <span id="nurseEducationDetail"></span></p>
+                                    <p class="card-text"><strong>Location:</strong> <span id="nurseLocationDetail"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="personnel" class="section" style="display: none;">
                     <h2>Personnel</h2>
 
@@ -204,19 +379,19 @@
 
                     <!-- Personnel Table -->
                     <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
                                 <th>Position</th>
-                            <th>Contact</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                                <th>Contact</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                         <tbody id="personnelTableBody">
                             <!-- Personnel records will be populated here -->
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Modal for Adding/Editing Personnel -->
@@ -245,7 +420,7 @@
                                             placeholder="Contact" required>
                                     </div>
                                     <button type="submit" class="btn btn-custom">Save Personnel</button>
-                    </form>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -287,7 +462,7 @@
                                 </div>
                             </div>
                         </div>
-                </div>
+                    </div>
 
                     <!-- Education Card -->
                     <div class="row">
@@ -310,8 +485,8 @@
                                     <!-- Example content -->
                                 </div>
                             </div>
-                </div>
-            
+                        </div>
+
                         <!-- Achievements Card -->
                         <div class="col-md-4">
                             <div class="card mb-3">
@@ -324,7 +499,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div id="billing" class="section" style="display: none;">
                     <h2>Billing</h2>
 
@@ -338,26 +513,26 @@
                     <div class="form-group">
                         <input type="text" id="searchBilling" class="form-control"
                             placeholder="Search by Patient ID or Amount" oninput="searchBilling()">
-                </div>
-            
+                    </div>
+
                     <!-- Billing Table -->
                     <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Patient ID</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient ID</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                         <tbody id="billingTableBody">
-                        <!-- Billing records will be populated here -->
-                    </tbody>
-                </table>
+                            <!-- Billing records will be populated here -->
+                        </tbody>
+                    </table>
                 </div>
-            
+
                 <!-- Modal for Adding/Editing Billing -->
                 <div class="modal fade" id="addBillingModal" tabindex="-1" role="dialog"
                     aria-labelledby="addBillingModalLabel" aria-hidden="true">
@@ -383,12 +558,12 @@
                                             placeholder="Description" required>
                                     </div>
                                     <button type="submit" class="btn btn-custom">Save Billing</button>
-                    </form>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            
+
                 <div id="billingDetails" class="section" style="display: none;">
                     <div class="d-flex justify-content-between align-items-center">
                         <h2>Billing Details</h2>
@@ -462,7 +637,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div id="reports" class="section" style="display: none;">
                     <h2>Reports</h2>
 
@@ -479,19 +654,19 @@
 
                     <!-- Reports Table -->
                     <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
                                 <th>Patient ID</th>
                                 <th>Description</th>
                                 <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                         <tbody id="reportsTableBody">
                             <!-- Report records will be populated here -->
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Modal for Adding/Editing Report -->
@@ -555,7 +730,7 @@
                                 </div>
                             </div>
                         </div>
-    </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-12">
@@ -568,6 +743,92 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="appointments" class="section" style="display: none;">
+                    <h2>Today's Appointments</h2>
+
+                    <!-- Button to Open Modal for Adding Appointment -->
+                    <button type="button" class="btn btn-custom mb-4" data-toggle="modal" data-target="#addAppointmentModal">
+                        Add New Appointment
+                    </button>
+
+                    <!-- Search Appointment -->
+                    <div class="form-group">
+                        <input type="text" id="searchAppointment" class="form-control" placeholder="Search by Patient Name or ID" oninput="searchAppointments()">
+                    </div>
+
+                    <!-- Appointments Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient Name</th>
+                                <th>Doctor Name</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentTableBody">
+                            <!-- Appointment records will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal for Adding/Editing Appointment -->
+                <div class="modal fade" id="addAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addAppointmentModalLabel">Add/Edit Appointment</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addAppointmentForm">
+                                    <div class="form-group">
+                                        <input type="text" id="appointmentPatientName" class="form-control" placeholder="Patient Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="appointmentDoctorName" class="form-control" placeholder="Doctor Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="time" id="appointmentTime" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom">Save Appointment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pastAppointments" class="section" style="display: none;">
+                    <h2>Past Appointments</h2>
+
+                    <!-- Search Past Appointment -->
+                    <div class="form-group">
+                        <input type="text" id="searchPastAppointment" class="form-control" placeholder="Search by Patient Name or ID" oninput="searchPastAppointments()">
+                    </div>
+
+                    <!-- Past Appointments Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient Name</th>
+                                <th>Doctor Name</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pastAppointmentTableBody">
+                            <!-- Past appointment records will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
             </main>
         </div>
     </div>
@@ -575,9 +836,10 @@
         <div class="container-fluid text-center">
             <p class="mb-0">© 2025 Mediplus. All rights reserved.</p>
             <p>Developed by Sarabjeet Singh | Hospital Management System</p>
-            <p>For inquiries, contact: <a href="mailto:sarabjeet@example.com" style="color: #ffffff;">Sarabjeetdevworks@gmail.com</a></p>
+            <p>For inquiries, contact: <a href="mailto:sarabjeetdevworks@gmail.com"
+                    style="color: #ffffff;">sarabjeetdevworks@gmail.com</a></p>
         </div>
-        <div class="social-icons text-center"></div>
+        <div class="social-icons text-center py-2"></div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -586,4 +848,4 @@
     <script src="script.js"></script>
 </body>
 
-</html> 
+</html>

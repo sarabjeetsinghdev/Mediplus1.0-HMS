@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize dummy data
     initializeDummyData();
+
 });
 
 let patients = [];
@@ -482,6 +483,16 @@ function initializeDummyData() {
     registerPatient("Jane Smith", 25, "987-654-3210", "456 Elm St", "B-");
     registerPatient("Alice Johnson", 40, "555-123-4567", "789 Oak St", "O-");
 
+    // Dummy Doctors
+    registerDoctor("Dr. Emily Brown", "Cardiologist", "555-987-6543", "10 years", "MD from Harvard University", "New York, NY");
+    registerDoctor("Dr. Michael Smith", "Neurologist", "555-321-0987", "8 years", "MD from Stanford University", "Los Angeles, CA");
+    registerDoctor("Dr. Sarah Connor", "Pediatrician", "555-654-3210", "5 years", "MD from Yale University", "Chicago, IL");
+
+    // Dummy Nurses
+    registerNurse("Nurse Jessica Jones", "Pediatrics", "555-111-2222", "3 years", "BSN from University of California", "San Francisco, CA");
+    registerNurse("Nurse Bruce Wayne", "Emergency", "555-333-4444", "6 years", "BSN from Johns Hopkins University", "Gotham City, NY");
+    registerNurse("Nurse Diana Prince", "Surgery", "555-555-6666", "4 years", "BSN from University of Washington", "Metropolis, NY");
+
     // Dummy Personnel
     registerPersonnel("Dr. Emily Brown", "Doctor", "555-987-6543");
     registerPersonnel("Nurse Sarah Connor", "Nurse", "555-321-0987");
@@ -496,6 +507,16 @@ function initializeDummyData() {
     registerReport(1, "Blood Test Results", "2023-10-01");
     registerReport(2, "X-Ray Results", "2023-10-02");
     registerReport(3, "Consultation Summary", "2023-10-03");
+
+    // Dummy Appointments
+    registerAppointment("John Doe", "Dr. Emily Brown", "09:00 AM", "Done");
+    registerAppointment("Jane Smith", "Dr. Michael Smith", "10:30 AM", "Cancelled");
+    registerAppointment("Alice Johnson", "Dr. Sarah Connor", "01:00 PM", "Done");
+
+    // Dummy Past Appointments
+    registerPastAppointment("John Doe", "Dr. Emily Brown", "2023-10-01", "09:00 AM", "Done");
+    registerPastAppointment("Jane Smith", "Dr. Michael Smith", "2023-09-15", "Cancelled");
+    registerPastAppointment("Alice Johnson", "Dr. Sarah Connor", "2023-09-20", "Done");
 }
 
 // Function to display patient details
@@ -672,3 +693,478 @@ f.then(response => response.json())
     document.querySelector('footer .social-icons').appendChild(socialContainer);
 })
 .catch(error => console.error('Error:', error));
+
+let doctors = [];
+let nurses = [];
+let doctorIdCounter = 1; // To keep track of doctor IDs
+let nurseIdCounter = 1; // To keep track of nurse IDs
+
+// Function to register a new doctor
+function registerDoctor(name, specialization, contact, experience, education, location) {
+    const doctor = {
+        id: doctorIdCounter++,
+        name: name,
+        specialization: specialization,
+        contact: contact,
+        experience: experience,
+        education: education,
+        location: location
+    };
+    doctors.push(doctor);
+    displayDoctors();
+}
+
+// Function to display doctors in the table
+function displayDoctors() {
+    const tableBody = document.getElementById('doctorTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    doctors.forEach(doctor => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${doctor.id}</td>
+            <td>${doctor.name}</td>
+            <td>${doctor.specialization}</td>
+            <td>${doctor.contact}</td>
+            <td>
+                <span class="icon" onclick="viewDoctor(${doctor.id})" title="View">
+                    <i class="fas fa-eye"></i>
+                </span>
+                <span class="icon" onclick="editDoctor(${doctor.id})" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                <span class="icon" onclick="deleteDoctor(${doctor.id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to handle form submission for adding/editing doctors
+document.getElementById('addDoctorForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent form submission
+    const name = document.getElementById('doctorName').value;
+    const specialization = document.getElementById('doctorSpecialization').value;
+    const contact = document.getElementById('doctorContact').value;
+
+    // Check if editing or adding
+    if (this.dataset.editing) {
+        const doctorId = this.dataset.editing; // Get the ID of the doctor being edited
+        const doctorIndex = doctors.findIndex(doctor => doctor.id == doctorId);
+        if (doctorIndex > -1) {
+            doctors[doctorIndex] = { id: doctorId, name, specialization, contact }; // Update the doctor
+        }
+    } else {
+        registerDoctor(name, specialization, contact); // Call the function to register doctor
+    }
+
+    // Clear form fields
+    this.reset(); // Reset the form fields after submission
+
+    // Close the modal
+    $('#addDoctorModal').modal('hide'); // Use jQuery to hide the modal
+});
+
+// Function to search doctors by name or ID
+function searchDoctors() {
+    const searchValue = document.getElementById('searchDoctor').value.toLowerCase();
+    const filteredDoctors = doctors.filter(doctor =>
+        doctor.name.toLowerCase().includes(searchValue) ||
+        doctor.id.toString().includes(searchValue)
+    );
+
+    const tableBody = document.getElementById('doctorTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    filteredDoctors.forEach(doctor => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${doctor.id}</td>
+            <td>${doctor.name}</td>
+            <td>${doctor.specialization}</td>
+            <td>${doctor.contact}</td>
+            <td>
+                <span class="icon" onclick="editDoctor(${doctor.id})">Edit</span>
+                <span class="icon" onclick="deleteDoctor(${doctor.id})">Delete</span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to delete a doctor
+function deleteDoctor(id) {
+    doctors = doctors.filter(doctor => doctor.id !== id);
+    displayDoctors();
+}
+
+// Function to edit a doctor
+function editDoctor(id) {
+    const doctor = doctors.find(doctor => doctor.id === id);
+    if (doctor) {
+        document.getElementById('doctorName').value = doctor.name;
+        document.getElementById('doctorSpecialization').value = doctor.specialization;
+        document.getElementById('doctorContact').value = doctor.contact;
+
+        // Show the modal
+        $('#addDoctorModal').modal('show');
+    }
+}
+
+// Similar functions for nurses
+function registerNurse(name, department, contact, experience, education, location) {
+    const nurse = {
+        id: nurseIdCounter++,
+        name: name,
+        department: department,
+        contact: contact,
+        experience: experience,
+        education: education,
+        location: location
+    };
+    nurses.push(nurse);
+    displayNurses();
+}
+
+function displayNurses() {
+    const tableBody = document.getElementById('nurseTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    nurses.forEach(nurse => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${nurse.id}</td>
+            <td>${nurse.name}</td>
+            <td>${nurse.department}</td>
+            <td>${nurse.contact}</td>
+            <td>
+                <span class="icon" onclick="viewNurse(${nurse.id})" title="View">
+                    <i class="fas fa-eye"></i>
+                </span>
+                <span class="icon" onclick="editNurse(${nurse.id})" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                <span class="icon" onclick="deleteNurse(${nurse.id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to handle form submission for adding/editing nurses
+document.getElementById('addNurseForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent form submission
+    const name = document.getElementById('nurseName').value;
+    const department = document.getElementById('nurseDepartment').value;
+    const contact = document.getElementById('nurseContact').value;
+
+    // Check if editing or adding
+    if (this.dataset.editing) {
+        const nurseId = this.dataset.editing; // Get the ID of the nurse being edited
+        const nurseIndex = nurses.findIndex(nurse => nurse.id == nurseId);
+        if (nurseIndex > -1) {
+            nurses[nurseIndex] = { id: nurseId, name, department, contact }; // Update the nurse
+        }
+    } else {
+        registerNurse(name, department, contact); // Call the function to register nurse
+    }
+
+    // Clear form fields
+    this.reset(); // Reset the form fields after submission
+
+    // Close the modal
+    $('#addNurseModal').modal('hide'); // Use jQuery to hide the modal
+});
+
+// Function to search nurses by name or ID
+function searchNurses() {
+    const searchValue = document.getElementById('searchNurse').value.toLowerCase();
+    const filteredNurses = nurses.filter(nurse =>
+        nurse.name.toLowerCase().includes(searchValue) ||
+        nurse.id.toString().includes(searchValue)
+    );
+
+    const tableBody = document.getElementById('nurseTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    filteredNurses.forEach(nurse => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${nurse.id}</td>
+            <td>${nurse.name}</td>
+            <td>${nurse.department}</td>
+            <td>${nurse.contact}</td>
+            <td>
+                <span class="icon" onclick="editNurse(${nurse.id})">Edit</span>
+                <span class="icon" onclick="deleteNurse(${nurse.id})">Delete</span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to delete a nurse
+function deleteNurse(id) {
+    nurses = nurses.filter(nurse => nurse.id !== id);
+    displayNurses();
+}
+
+// Function to edit a nurse
+function editNurse(id) {
+    const nurse = nurses.find(nurse => nurse.id === id);
+    if (nurse) {
+        document.getElementById('nurseName').value = nurse.name;
+        document.getElementById('nurseDepartment').value = nurse.department;
+        document.getElementById('nurseContact').value = nurse.contact;
+
+        // Show the modal
+        $('#addNurseModal').modal('show');
+    }
+}
+
+// Function to view a doctor's details
+function viewDoctor(id) {
+    const doctor = doctors.find(doctor => doctor.id === id);
+    if (doctor) {
+        document.getElementById('doctorNameDetail').innerText = doctor.name;
+        document.getElementById('doctorSpecializationDetail').innerText = doctor.specialization;
+        document.getElementById('doctorContactDetail').innerText = doctor.contact;
+        document.getElementById('doctorExperienceDetail').innerText = doctor.experience;
+        document.getElementById('doctorEducationDetail').innerText = doctor.education;
+        document.getElementById('doctorLocationDetail').innerText = doctor.location;
+
+        // Hide all sections and show doctor details
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.display = 'none'; // Hide all sections
+        });
+        document.getElementById('doctorDetails').style.display = 'block'; // Show doctor details
+    }
+}
+
+// Function to view a nurse's details
+function viewNurse(id) {
+    const nurse = nurses.find(nurse => nurse.id === id);
+    if (nurse) {
+        document.getElementById('nurseNameDetail').innerText = nurse.name;
+        document.getElementById('nurseDepartmentDetail').innerText = nurse.department;
+        document.getElementById('nurseContactDetail').innerText = nurse.contact;
+        document.getElementById('nurseExperienceDetail').innerText = nurse.experience;
+        document.getElementById('nurseEducationDetail').innerText = nurse.education;
+        document.getElementById('nurseLocationDetail').innerText = nurse.location;
+
+        // Hide all sections and show nurse details
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.display = 'none'; // Hide all sections
+        });
+        document.getElementById('nurseDetails').style.display = 'block'; // Show nurse details
+    }
+}
+
+// Event listener for back to doctors button
+document.getElementById('backToDoctorsButton').addEventListener('click', function () {
+    document.getElementById('doctorDetails').style.display = 'none'; // Hide doctor details
+    showSection('doctors'); // Show doctors section
+});
+
+// Event listener for back to nurses button
+document.getElementById('backToNursesButton').addEventListener('click', function () {
+    document.getElementById('nurseDetails').style.display = 'none'; // Hide nurse details
+    showSection('nurses'); // Show nurses section
+});
+
+let appointments = [];
+let appointmentIdCounter = 1; // To keep track of appointment IDs
+
+// Function to register a new appointment
+function registerAppointment(patientName, doctorName, time, status = "Done") {
+    const appointment = {
+        id: appointmentIdCounter++,
+        patientName: patientName,
+        doctorName: doctorName,
+        time: time,
+        status: status // Add status
+    };
+    appointments.push(appointment);
+    displayAppointments();
+}
+
+// Function to display appointments in the table
+function displayAppointments() {
+    const tableBody = document.getElementById('appointmentTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    appointments.forEach(appointment => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${appointment.id}</td>
+            <td>${appointment.patientName}</td>
+            <td>${appointment.doctorName}</td>
+            <td>${appointment.time}</td>
+            <td>${appointment.status}</td>
+            <td>
+                <span class="icon" onclick="editAppointment(${appointment.id})" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                <span class="icon" onclick="deleteAppointment(${appointment.id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to handle form submission for adding appointments
+document.getElementById('addAppointmentForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent form submission
+    const patientName = document.getElementById('appointmentPatientName').value;
+    const doctorName = document.getElementById('appointmentDoctorName').value;
+    const time = document.getElementById('appointmentTime').value;
+
+    registerAppointment(patientName, doctorName, time); // Call the function to register appointment
+
+    // Clear form fields
+    this.reset(); // Reset the form fields after submission
+
+    // Close the modal
+    $('#addAppointmentModal').modal('hide'); // Use jQuery to hide the modal
+});
+
+// Function to search appointments by patient name or ID
+function searchAppointments() {
+    const searchValue = document.getElementById('searchAppointment').value.toLowerCase();
+    const filteredAppointments = appointments.filter(appointment =>
+        appointment.patientName.toLowerCase().includes(searchValue) ||
+        appointment.id.toString().includes(searchValue)
+    );
+
+    const tableBody = document.getElementById('appointmentTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    filteredAppointments.forEach(appointment => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${appointment.id}</td>
+            <td>${appointment.patientName}</td>
+            <td>${appointment.doctorName}</td>
+            <td>${appointment.time}</td>
+            <td>${appointment.status}</td>
+            <td>
+                <span class="icon" onclick="editAppointment(${appointment.id})">Edit</span>
+                <span class="icon" onclick="deleteAppointment(${appointment.id})">Delete</span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to delete an appointment
+function deleteAppointment(id) {
+    appointments = appointments.filter(appointment => appointment.id !== id);
+    displayAppointments();
+}
+
+// Function to edit an appointment
+function editAppointment(id) {
+    const appointment = appointments.find(appointment => appointment.id === id);
+    if (appointment) {
+        document.getElementById('appointmentPatientName').value = appointment.patientName;
+        document.getElementById('appointmentDoctorName').value = appointment.doctorName;
+        document.getElementById('appointmentTime').value = appointment.time;
+
+        // Show the modal
+        $('#addAppointmentModal').modal('show');
+    }
+}
+
+let pastAppointments = [];
+let pastAppointmentIdCounter = 1; // To keep track of past appointment IDs
+
+// Function to register a new past appointment
+function registerPastAppointment(patientName, doctorName, date, time, status = "Done") {
+    const pastAppointment = {
+        id: pastAppointmentIdCounter++,
+        patientName: patientName,
+        doctorName: doctorName,
+        date: date,
+        time: time,
+        status: status // Add status
+    };
+    pastAppointments.push(pastAppointment);
+    displayPastAppointments();
+}
+
+// Function to display past appointments in the table
+function displayPastAppointments() {
+    const tableBody = document.getElementById('pastAppointmentTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    pastAppointments.forEach(pastAppointment => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${pastAppointment.id}</td>
+            <td>${pastAppointment.patientName}</td>
+            <td>${pastAppointment.doctorName}</td>
+            <td>${pastAppointment.date}</td>
+            <td>${pastAppointment.time}</td>
+            <td>${pastAppointment.status}</td>
+            <td>
+                <span class="icon" onclick="viewPastAppointment(${pastAppointment.id})" title="View">
+                    <i class="fas fa-eye"></i>
+                </span>
+                <span class="icon" onclick="deletePastAppointment(${pastAppointment.id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to search past appointments by patient name or ID
+function searchPastAppointments() {
+    const searchValue = document.getElementById('searchPastAppointment').value.toLowerCase();
+    const filteredPastAppointments = pastAppointments.filter(pastAppointment =>
+        pastAppointment.patientName.toLowerCase().includes(searchValue) ||
+        pastAppointment.id.toString().includes(searchValue)
+    );
+
+    const tableBody = document.getElementById('pastAppointmentTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    filteredPastAppointments.forEach(pastAppointment => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${pastAppointment.id}</td>
+            <td>${pastAppointment.patientName}</td>
+            <td>${pastAppointment.doctorName}</td>
+            <td>${pastAppointment.date}</td>
+            <td>${pastAppointment.time}</td>
+            <td>${pastAppointment.status}</td>
+            <td>
+                <span class="icon" onclick="viewPastAppointment(${pastAppointment.id})">View</span>
+                <span class="icon" onclick="deletePastAppointment(${pastAppointment.id})">Delete</span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to delete a past appointment
+function deletePastAppointment(id) {
+    pastAppointments = pastAppointments.filter(pastAppointment => pastAppointment.id !== id);
+    displayPastAppointments();
+}
+
+// Function to view a past appointment's details
+function viewPastAppointment(id) {
+    const pastAppointment = pastAppointments.find(pastAppointment => pastAppointment.id === id);
+    if (pastAppointment) {
+        // Display the past appointment details in a modal or a dedicated section
+        alert(`Past Appointment Details:\nPatient: ${pastAppointment.patientName}\nDoctor: ${pastAppointment.doctorName}\nDate: ${pastAppointment.date}\nTime: ${pastAppointment.time}`);
+    }
+}

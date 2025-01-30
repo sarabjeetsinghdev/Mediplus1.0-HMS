@@ -1,20 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 
+:root {
+    --color-theme: #0e5c78;
+    /* Theme Color */
+    --color-light-green: #e0f4e1;
+    /* Light Green */
+    --color-teal: #009688;
+    /* Teal */
+    --color-dark-teal: #00796b;
+    /* Dark Teal */
+    --color-blue: #004d40;
+    /* Blue */
+    --color-light-blue: #b2ebf2;
+    /* Light Blue */
+    --color-white: #f0f4f8;
+    /* White */
+}
+
 * {
+    box-sizing: border-box;
+    /* Ensure padding and borders are included in element's total width and height */
     user-select: none;
 }
 
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f4ff;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background: linear-gradient(90deg, var(--color-theme), var(--color-light-blue));
+    color: var(--color-white);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar {
     width: 250px;
     /* Set a fixed width for the sidebar */
-    padding: 48px 0 48px 0;
+    padding: 48px 0;
     /* Padding for the top */
-    background: linear-gradient(180deg, #3f51b5, #1a237e);
+    background-color: #0e5c78;
     /* Indigo gradient */
     color: #ffffff;
     /* White text */
@@ -33,6 +62,10 @@ body {
     font-style: normal;
 }
 
+.nav-item {
+    cursor: pointer;
+}
+
 .nav-link {
     margin: 0 20px 0 10px;
     color: #ffffff;
@@ -46,17 +79,13 @@ body {
 }
 
 .nav-link:hover {
+    background-color: rgba(157, 159, 159, 0.179);
     color: #ffffff;
-    /* White text on hover */
-    font-weight: bold;
-    background-color: #303f9f;
-    /* Darker indigo background on hover */
     transform: scale(1.05);
-    /* Slightly enlarge the link on hover */
 }
 
 .nav-link.active {
-    background-color: #1a237e;
+    background-color: #145165;
     /* Darker indigo for active link */
 }
 
@@ -65,14 +94,14 @@ body {
 }
 
 h2 {
-    color: #3f51b5;
+    color: var(--color-theme);
     /* Indigo color for headings */
     font-weight: bold;
     /* Bold headings */
 }
 
 footer {
-    background-color: #3f51b5;
+    background-color: #28668d;
     /* Indigo footer */
     color: #ffffff;
     /* White text */
@@ -123,7 +152,7 @@ footer {
 }
 
 .btn-custom {
-    background-color: #3f51b5;
+    background-color: var(--color-theme);
     /* Indigo button color */
     color: #ffffff;
     /* White text */
@@ -133,20 +162,19 @@ footer {
     /* Rounded corners */
     padding: 10px 15px;
     /* Padding */
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
     /* Smooth transition */
 }
 
 .btn-custom:hover {
-    background-color: #303f9f;
-    /* Darker indigo on hover */
+    background-color: #0d4f5c;
+    /* Darker shade on hover */
     color: #ffffff;
-    /* White text on hover */
+    transform: scale(1.05);
 }
 
 /* Responsive Design */
 @media (max-width: 764px) {
-
     .sidebar {
         position: relative;
         /* Change sidebar position on small screens */
@@ -184,27 +212,34 @@ footer {
 }
 
 .card {
-    border-radius: 15px; /* Set border radius for all cards */
-    margin-bottom: 20px; /* Add some space between cards */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
-    transition: transform 0.3s; /* Smooth transition for hover effect */
+    border-radius: 15px;
+    /* Set border radius for all cards */
+    margin-bottom: 20px;
+    /* Add some space between cards */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Add a subtle shadow for depth */
+    transition: transform 0.3s;
+    /* Smooth transition for hover effect */
 }
 
 .card:hover {
-    transform: translateY(-5px); /* Slightly lift the card on hover */
+    transform: translateY(-5px);
+    /* Slightly lift the card on hover */
 }
 
 .card-body {
-    padding: 20px; /* Adjust padding for better content spacing */
+    padding: 20px;
+    /* Adjust padding for better content spacing */
 }
 
 .card-title {
-    font-size: 1.25rem; /* Increase font size for titles */
-    color: #3f51b5; /* Indigo color for titles */
+    font-size: 1.5rem;
+    color: var(--color-theme);
 }
 
 .card-text {
-    color: #555; /* Darker text color for better readability */
+    color: #555;
+    /* Darker text color for better readability */
 }
 
 .row {
@@ -315,35 +350,54 @@ footer {
 }
 
 .dashboard-content {
-    margin-top: 50px; /* Add some space above */
+    margin-top: 50px;
+    /* Add some space above */
 }
 
 .dashboard-title {
-    font-size: 2.5rem; /* Increase font size for the title */
-    font-family: 'Libre Baskerville', serif; /* Use a stylish font */
-    color: #3f51b5; /* Indigo color for the title */
-    margin-bottom: 20px; /* Space below the title */
+    font-size: 2.5rem;
+    /* Increase font size for the title */
+    font-family: 'Libre Baskerville', serif;
+    /* Use a stylish font */
+    color: #3f51b5;
+    /* Indigo color for the title */
+    margin-bottom: 20px;
+    /* Space below the title */
 }
 
 .dashboard-description {
-    font-size: 0.9rem; /* Set font size for the description */
-    color: #555; /* Darker text color for better readability */
-    max-width: 800px; /* Limit the width of the description */
-    margin: 0 auto; /* Center the description */
-    line-height: 1.6; /* Increase line height for better readability */
+    font-size: 0.9rem;
+    /* Set font size for the description */
+    color: #555;
+    /* Darker text color for better readability */
+    max-width: 800px;
+    /* Limit the width of the description */
+    margin: 0 auto;
+    /* Center the description */
+    line-height: 1.6;
+    /* Increase line height for better readability */
 }
 
 .social-icons {
-    background-color: #7274d0;
+    background-color: #527996;
 }
 
 .social-icon {
-    margin: 0 4px; /* Space between icons */
-    color: #ffffff; /* Indigo color for icons */
-    font-size: 24px; /* Size of the icons */
-    transition: transform 0.3s; /* Smooth transition for hover effect */
+    margin: 0 4px;
+    /* Space between icons */
+    color: #ffffff;
+    /* Indigo color for icons */
+    font-size: 24px;
+    /* Size of the icons */
+    transition: transform 0.3s;
+    /* Smooth transition for hover effect */
 }
 
 .social-icon:hover {
     transform: scale(1.1);
+}
+
+.sidebar-logo {
+    margin-bottom: 20px;
+    /* Space below the logo */
 }
